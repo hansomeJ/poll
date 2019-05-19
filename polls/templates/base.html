@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}首页{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'js/lib/bootstrap-3.3.7-dist/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/common1.css' %}">
+    <script type="text/javascript" src="{% static 'js/lib/jQuery3.2.1/jquery-3.2.1.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/lib/bootstrap-3.3.7-dist/js/bootstrap.js' %}"></script>
+</head>
+<body class="container">
+<div class="jumbotron">
+    <div class="panel panel-default">
+        <div class="panel-heading ">
+        {% block header %}
+            <div class="text-center">
+            <h3>
+                所有投票信息
+            </h3>
+
+            </div>
+
+        {% endblock %}
+        </div>
+        <div class="panel-body">
+            {% block middle %}
+                <div class="text-center text-danger"><h4>{{ msg }}</h4></div>
+                <div class="list-group">
+                {% for q in question %}
+                    <a href="{% url 'poll:vote' q.id %}" class="list-group-item ">
+                        {{ forloop.counter }}、
+                        {{ q.questions }}
+                    </a>
+                {% empty %}
+                    <a href="{%  url 'poll:add' %}" class="list-group-item text-center">
+                        <h3 class="btn btn-success">还没有数据！请添加</h3>
+                    </a>
+                {% endfor %}
+                </div>
+                <div class="text-center">
+                    <a href="{%  url 'poll:add' %}" class="btn btn-warning">我要发起投票</a>
+                </div>
+            {% endblock %}
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>
