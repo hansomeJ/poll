@@ -3,4 +3,4 @@ from django.shortcuts import reverse
 
 def index(request):
     if request.method=='GET':
-        return redirect(reverse("poll:index"))
+        return redirect(reverse("poll:reg"))

@@ -108,6 +108,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# 表示存储在session中对象，首先使用如下对象序列化
+
+# 使用    PickleSerializer
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/

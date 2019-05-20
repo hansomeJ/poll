@@ -10,8 +10,24 @@
     <script type="text/javascript" src="{% static 'js/lib/bootstrap-3.3.7-dist/js/bootstrap.js' %}"></script>
 </head>
 <body class="container">
+
 <div class="jumbotron">
     <div class="panel panel-default">
+        {% block nav %}
+        <ul class="nav nav-pills">
+            {% if request.session.login_user %}
+            <li role="presentation" class="buttons "><a href="{% url 'poll:index' %}">首页</a></li>
+            <li role="presentation"><a href="">当前用户：</a></li>
+            <li role="presentation"><a href="">{{ request.session.login_user.name }}</a></li>
+            <li role="presentation" class="buttons"><a href="{% url 'poll:logout' %}">退出</a></li>
+            {% else %}
+            <li role="presentation" class="buttons"><a href="{% url 'poll:reg' %}">注册</a></li>
+            <li role="presentation" class="buttons"><a href="{% url 'poll:login' %}">登录</a></li>
+            {% endif %}
+
+
+        </ul>
+        {% endblock %}
         <div class="panel-heading ">
         {% block header %}
             <div class="text-center">
