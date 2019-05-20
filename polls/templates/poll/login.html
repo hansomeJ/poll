@@ -1,0 +1,13 @@
+{% extends 'poll/reg.html' %}
+{% block header %}
+    <div class="text-center">
+        <h3>
+            登录界面
+        </h3>
+
+    </div>
+
+{% endblock %}
+{% block action %} action="{% url 'poll:login' %}" {% endblock %}
+
+{% block btn %}登录{% endblock %}
