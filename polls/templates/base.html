@@ -15,10 +15,10 @@
     <div class="panel panel-default">
         {% block nav %}
         <ul class="nav nav-pills">
-            {% if request.session.login_user %}
+            {% if request.user and request.user.is_authenticated %}
             <li role="presentation" class="buttons "><a href="{% url 'poll:index' %}">首页</a></li>
             <li role="presentation"><a href="">当前用户：</a></li>
-            <li role="presentation"><a href="">{{ request.session.login_user.name }}</a></li>
+            <li role="presentation"><a href="">{{ request.user }}</a></li>
             <li role="presentation" class="buttons"><a href="{% url 'poll:logout' %}">退出</a></li>
             {% else %}
             <li role="presentation" class="buttons"><a href="{% url 'poll:reg' %}">注册</a></li>
@@ -60,8 +60,10 @@
             {% endblock %}
         </div>
     </div>
-</div>
 
+</div>
+{% block exercise %}
+{% endblock %}
 </body>
 
 </html>

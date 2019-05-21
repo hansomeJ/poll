@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.shortcuts import reverse
+from django.contrib.auth import authenticate,login as Login,logout as Logout
 from . import models,utils
 
 
@@ -73,13 +74,39 @@ def reg(request):
         if len(pwd)==0:
             return render(request, 'poll/reg.html', {'msg': '密码不能为空！'})
         try:
-            user=models.User.objects.get(name=name)
+            user=models.m_User.objects.get(name=name)
             return render(request, 'poll/reg.html', {'msg': '该用户名已经存在！'})
         except Exception as e:
             print('捕获错误信息：',e)
-            user=models.User(name=name,pwd=pwd)
-            user.save()
+
+            models.m_User.objects.create_user(username=name,password=pwd)
+            # user=models.User(name=name,pwd=pwd)
+            # user.save()
             return render(request, 'poll/login.html', {'msg': '注册成功，请登录！'})
+
+def reset(request):
+    if request.method=='GET':
+        return render(request,'poll/reset.html',{'msg':'重置密码！'})
+    else:
+        name=request.POST['name'].strip()
+        pwd=request.POST['pwd'].strip()
+
+        if len(name)==0:
+            return render(request, 'poll/reg.html', {'msg': '用户名不能为空！'})
+        if len(pwd)==0:
+            return render(request, 'poll/reg.html', {'msg': '密码不能为空！'})
+        try:
+            user=models.m_User.objects.get(name=name)
+            # 这里写修改密码功能
+
+            return render(request, 'poll/reg.html', {'msg': '该用户名已经存在！'})
+        except Exception as e:
+            print('捕获错误信息：',e)
+
+            models.m_User.objects.create_user(username=name,password=pwd)
+            # user=models.User(name=name,pwd=pwd)
+            # user.save()
+            return render(request, 'poll/login.html', {'msg': '用户名不存在！'})
 
 def login(request):
     if request.method=='GET':
@@ -88,15 +115,24 @@ def login(request):
         name=request.POST['name'].strip()
         pwd=request.POST['pwd'].strip()
 
-        try:
-            user=models.User.objects.get(name=name,pwd=pwd)
-            # 把用户信息加入到session
-            request.session['login_user'] = user
+        user=authenticate(request,username=name,password=pwd)
+        if user:
+            Login(request,user)
             return redirect(reverse('poll:index'))
-        except Exception as e:
-            print('捕获错误信息：',e)
+        else:
             return render(request, 'poll/login.html', {'msg': '用户名或密码错误！'})
+
+    # try:
+        #     user=models.User.objects.get(name=name,pwd=pwd)
+        #     # 把用户信息加入到session
+        #     request.session['login_user'] = user
+        #     return redirect(reverse('poll:index'))
+        # except Exception as e:
+        #     print('捕获错误信息：',e)
+        #     return render(request, 'poll/login.html', {'msg': '用户名或密码错误！'})
+
 @utils.login_user
 def logout(request):
-    del request.session['login_user']
+    # del request.session['login_user']
+    Logout(request)
     return render(request,'poll/login.html',{'msg':'账号已经退出请重新登录！'})

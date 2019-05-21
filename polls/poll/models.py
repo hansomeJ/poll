@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 # Create your models here.
@@ -13,15 +14,14 @@ class Poll(models.Model):
 
     class Meta:
         verbose_name = '问题'
+        verbose_name_plural=verbose_name
 
     # def __str__(self):
     #     return self.id
 
 
-class User(models.Model):
-    id = models.AutoField(primary_key=True, verbose_name='主键')
-    name = models.CharField(max_length=50, verbose_name='用户账号')
-    pwd = models.CharField(max_length=50, verbose_name='用户密码')
-
+class m_User(User):
+    tel=models.CharField(max_length=11,verbose_name='电话号码')
     class Meta:
         verbose_name = '用户'
+        verbose_name_plural=verbose_name

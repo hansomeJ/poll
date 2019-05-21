@@ -113,6 +113,38 @@ AUTH_PASSWORD_VALIDATORS = [
 # 使用    PickleSerializer
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 
+# 缓存配置
+# 低版本配置方法
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://192.168.14.133:6379/0",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "PASSWORD": "123456",
+            # 设置连接超时时间
+            "SOCKET_TIMEOUT": 5,
+            # 设置数据压缩
+            # "COMPRESSOR": "django_redis.compressors.lzma.LzmaCompressor",
+        }
+    }
+}
+
+# 如下选项，表示将session对象交给redis管理
+
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
+
+# redis配置
+# SESSION_ENGINE = 'redis_sessions.session'
+# SESSION_REDIS_HOST = '192.168.14.133:6379'
+# SESSION_REDIS_PORT = 6379
+# SESSION_REDIS_DB = 2
+# SESSION_REDIS_PASSWORD = '123456'
+# SESSION_REDIS_PREFIX = 'session'
+
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
@@ -143,3 +175,4 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS=[
     os.path.join(BASE_DIR,'static')
 ]
+
