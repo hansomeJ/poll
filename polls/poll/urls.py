@@ -9,4 +9,5 @@ urlpatterns=[
     url(r'login/',views.login,name='login'),
     url(r'logout/',views.logout,name='logout'),
     url(r'reset/',views.reset,name='reset'),
+    url(r'active/(.*?)/',views.active,name='reset'),
 ]
